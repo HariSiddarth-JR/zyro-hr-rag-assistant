@@ -7,17 +7,17 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-"""-------------------------
-CONFIG
--------------------------"""
+#-------------------------
+#CONFIG
+#-------------------------
 
 LLM_MODEL = "llama-3.3-70b-versatile"
 
 #Put your Groq API Key in Streamlit Secrets
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-"""-------------------------
-LOAD RAG COMPONENTS
--------------------------"""
+#"""-------------------------
+#LOAD RAG COMPONENTS
+#-------------------------"""
 
 @st.cache_resource
 def build_rag():
@@ -55,9 +55,9 @@ def build_rag():
 
 retriever, llm = build_rag()
 
-"""-------------------------
-PROMPT
--------------------------"""
+#"""-------------------------
+#PROMPT
+#-------------------------"""
 
 RAG_PROMPT = ChatPromptTemplate.from_template(
 '''
@@ -82,9 +82,9 @@ Answer:
 '''
 )
 
-"""-------------------------
-HELPERS
--------------------------"""
+#"""-------------------------
+#HELPERS
+#-------------------------"""
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -134,9 +134,9 @@ def ask_bot(question):
         return REFUSAL_MESSAGE
 
     return rag_chain(question)
-"""-------------------------
-UI
--------------------------"""
+#"""-------------------------
+#UI
+#-------------------------"""
 
 st.set_page_config(
 page_title="Zyro HR Assistant",
