@@ -7,57 +7,57 @@ from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
--------------------------
+"""-------------------------
 CONFIG
--------------------------
+-------------------------"""
 
 LLM_MODEL = "llama-3.3-70b-versatile"
 
-Put your Groq API Key in Streamlit Secrets
-GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
--------------------------
+#Put your Groq API Key in Streamlit Secrets
+GROQ_API_KEY = st.secrets["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"]
+"""-------------------------
 LOAD RAG COMPONENTS
--------------------------
+-------------------------"""
 
 @st.cache_resource
 def build_rag():
 
-loader = PyPDFDirectoryLoader("zyro-dynamics-hr-corpus")
-documents = loader.load()
+    loader = PyPDFDirectoryLoader("zyro-dynamics-hr-corpus")
+    documents = loader.load()
 
-splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=200
-)
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200
+    )
 
-chunks = splitter.split_documents(documents)
+    chunks = splitter.split_documents(documents)
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+        embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
 
-vectorstore = FAISS.from_documents(
-    chunks,
-    embeddings
-)
+    vectorstore = FAISS.from_documents(
+        chunks,
+        embeddings
+    )
 
-retriever = vectorstore.as_retriever(
-    search_kwargs={"k": 8}
-)
+    retriever = vectorstore.as_retriever(
+        search_kwargs={"k": 8}
+    )
 
-llm = ChatGroq(
-    model=LLM_MODEL,
-    temperature=0.1,
-    max_tokens=512
-)
+    llm = ChatGroq(
+        model=LLM_MODEL,
+        temperature=0.1,
+        max_tokens=512
+    )
 
-return retriever, llm
+    return retriever, llm
 
 retriever, llm = build_rag()
 
--------------------------
+"""-------------------------
 PROMPT
--------------------------
+-------------------------"""
 
 RAG_PROMPT = ChatPromptTemplate.from_template(
 '''
@@ -82,9 +82,9 @@ Answer:
 '''
 )
 
--------------------------
+"""-------------------------
 HELPERS
--------------------------
+-------------------------"""
 
 def format_docs(docs):
 return "\n\n".join(doc.page_content for doc in docs)
@@ -134,9 +134,9 @@ if not any(k in question.lower() for k in hr_keywords):
     return REFUSAL_MESSAGE
 
 return rag_chain(question)
--------------------------
+"""-------------------------
 UI
--------------------------
+-------------------------"""
 
 st.set_page_config(
 page_title="Zyro HR Assistant",
@@ -151,10 +151,10 @@ question = st.text_input(
 
 if st.button("Submit"):
 
-if question.strip():
+    if question.strip():
 
-    with st.spinner("Searching policies..."):
-        answer = ask_bot(question)
+        with st.spinner("Searching policies..."):
+            answer = ask_bot(question)
 
-    st.markdown("### Answer")
-    st.write(answer)
+        st.markdown("### Answer")
+        st.write(answer)
