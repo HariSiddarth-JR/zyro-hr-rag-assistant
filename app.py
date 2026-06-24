@@ -32,7 +32,7 @@ def build_rag():
 
     chunks = splitter.split_documents(documents)
 
-        embeddings = HuggingFaceEmbeddings(
+    embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
 
