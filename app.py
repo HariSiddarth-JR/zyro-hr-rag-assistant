@@ -87,24 +87,24 @@ HELPERS
 -------------------------"""
 
 def format_docs(docs):
-return "\n\n".join(doc.page_content for doc in docs)
+    return "\n\n".join(doc.page_content for doc in docs)
 
 def rag_chain(question):
 
-docs = retriever.invoke(question)
+    docs = retriever.invoke(question)
 
-context = format_docs(docs)
+    context = format_docs(docs)
 
-chain = (
-    RAG_PROMPT
-    | llm
-    | StrOutputParser()
-)
+    chain = (
+        RAG_PROMPT
+        | llm
+        | StrOutputParser()
+    )
 
-return chain.invoke({
-    "context": context,
-    "question": question
-})
+    return chain.invoke({
+        "context": context,
+        "question": question
+    })
 
 REFUSAL_MESSAGE = (
 "I can only answer questions related to Zyro Dynamics HR policies."
@@ -112,28 +112,28 @@ REFUSAL_MESSAGE = (
 
 def ask_bot(question):
 
-hr_keywords = [
-    "leave",
-    "employee",
-    "policy",
-    "salary",
-    "benefits",
-    "work from home",
-    "performance",
-    "security",
-    "travel",
-    "expense",
-    "onboarding",
-    "separation",
-    "conduct",
-    "posh",
-    "hr"
-]
+    hr_keywords = [
+        "leave",
+        "employee",
+        "policy",
+        "salary",
+        "benefits",
+        "work from home",
+        "performance",
+        "security",
+        "travel",
+        "expense",
+        "onboarding",
+        "separation",
+        "conduct",
+        "posh",
+        "hr"
+    ]
 
-if not any(k in question.lower() for k in hr_keywords):
-    return REFUSAL_MESSAGE
+    if not any(k in question.lower() for k in hr_keywords):
+        return REFUSAL_MESSAGE
 
-return rag_chain(question)
+    return rag_chain(question)
 """-------------------------
 UI
 -------------------------"""
