@@ -14,7 +14,7 @@ CONFIG
 LLM_MODEL = "llama-3.3-70b-versatile"
 
 #Put your Groq API Key in Streamlit Secrets
-GROQ_API_KEY = st.secrets["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"]
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 """-------------------------
 LOAD RAG COMPONENTS
 -------------------------"""
